@@ -1,0 +1,29 @@
+
+
+body{
+    color:rgb(248, 214, 18) ;
+    background-image:url('img/totalpass.png');
+}
+
+
+#cPrincipal {    
+padding: 5%;
+margin: auto;
+}
+
+.form-control{
+   
+    border: 2px solid wheat ;
+    color:rgb(0, 0, 0) ;
+}
+
+
+#listaSection{
+    display: none;
+ 
+    
+}
+
+
+
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Aluno</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Editar Aluno</h1>
+        
+        <form id="editarForm" class="mb-4">
+      
+
+            <div class="form-group">
+                <label for="editarNome">Nome do Aluno</label>
+                <input type="text" class="form-control" id="editarNome" required>
+            </div>
+            <div class="form-group">
+                <label for="editarTelefone">Telefone</label>
+                <input type="tel" class="form-control" id="editarTelefone" required>
+            </div>
+            <div class="form-group">
+                <label for="editarModalidade">Modalidade</label>
+                <select class="form-control" id="editarModalidade" required>
+                    <option value="Futevôlei 5X">Futevôlei 5x</option>
+                    <option value="Futevôlei 3X">Futevôlei 3x</option>
+                    <option value="Futevôlei 2X">Futevôlei 2x</option>
+                    <option value="Futevôlei 1X">Futevôlei 1x</option>
+                    <option value="Vôlei X2">Vôlei 2x</option>
+                    <option value="Vôlei X1">Vôlei 1x</option>
+                    <option value="Funcional">Funcional 1</option>
+                </select>
+            </div>
+
+            <!-- Informações Extras -->
+            <div class="form-group">
+                <label for="formaPagamento">Forma de Pagamento</label>
+                <select class="form-control" id="formaPagamento" required>
+                    <option value="dinheiro">Dinheiro</option>
+                    <option value="debito">Débito</option>
+                    <option value="credito">Crédito</option>
+                    <option value="pix">Pix</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Vpagamento">Valor de Pagamento</label>
+                <input type="number" class="form-control" id="Vpagamento" required>
+            </div>
+            <div class="form-group">
+                <label for="Dpagamento">Data do Pagamento</label>
+                <input type="date" class="form-control" id="Dpagamento" required>
+            </div> 
+            <div class="form-group">
+                <label for="observacao">Observação</label>
+                <input type="text" class="form-control" id="observacao">
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="voltarParaCadastro()">Voltar</button>
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        </form>
+    </div>
+
+    <script>
+        // Carrega as informações do aluno a ser editado
+        window.onload = function() {
+            const aluno = JSON.parse(localStorage.getItem('alunoParaEditar'));
+         
+
+            if (aluno) {
+                // Exibe o índice do aluno
+                document.getElementById('editarNome').value = aluno.nome;
+                document.getElementById('editarTelefone').value = aluno.telefone;
+                document.getElementById('editarModalidade').value = aluno.modalidade;
+                document.getElementById('formaPagamento').value = aluno.formaPagamento || '';
+                document.getElementById('Vpagamento').value = aluno.Vpagamento || '';
+                document.getElementById('Dpagamento').value = aluno.Dpagamento || '';
+                document.getElementById('observacao').value = aluno.observacao || '';
+            }
+        };
+
+        // Função para voltar para a tela de cadastro
+        function voltarParaCadastro() {
+            window.location.href = "index.html"; // Ajuste para o caminho correto
+        }
+
+        // Função para salvar as alterações
+        document.getElementById('editarForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById('editarNome').value;
+            const telefone = document.getElementById('editarTelefone').value;
+            const modalidade = document.getElementById('editarModalidade').value;
+            const formaPagamento = document.getElementById('formaPagamento').value;
+            const Vpagamento = document.getElementById('Vpagamento').value;
+            const Dpagamento = document.getElementById('Dpagamento').value;
+            const observacao = document.getElementById('observacao').value;
+
+            const index = localStorage.getItem('alunoIndexParaEditar');
+            if (index !== null) {
+                // Atualiza os dados do aluno no array de alunos
+                const alunos = JSON.parse(localStorage.getItem('alunos'));
+                alunos[index] = { nome, telefone, modalidade, formaPagamento, Vpagamento, Dpagamento, observacao };
+
+                // Salva o array atualizado no localStorage
+                localStorage.setItem('alunos', JSON.stringify(alunos));
+
+                // Limpa o localStorage temporário e volta para a página de cadastro
+                localStorage.removeItem('alunoIndexParaEditar');
+                localStorage.removeItem('alunoParaEditar');
+                voltarParaCadastro();
+            }
+        });
+    </script>
+</body>
+</html>
